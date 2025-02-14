@@ -9,5 +9,5 @@ def fibonacci_memo(n, memo=None):
         memo[n] = fibonacci_memo(n - 1, memo) + fibonacci_memo(n - 2, memo)
     return memo[n]
 
-pos = int(input("ingresa numero para serie fibo: "))
+pos = int(input("ingresa numero para serie de fibonacci: "))
 print(fibonacci_memo(pos))

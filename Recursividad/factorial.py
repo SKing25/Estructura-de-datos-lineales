@@ -1,10 +1,10 @@
 def factorial(n):
-    #caso base
+    # caso base
     if n == 0:
         return 1
 
-    #llamada recursiva
+    # llamada recursiva
     return n * factorial(n - 1)
 
-#ejemplo de uso
+# ejemplo de uso
 print(factorial(5)) #120

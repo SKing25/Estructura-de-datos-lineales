@@ -4,7 +4,7 @@ def fibonacci(n):
     F(0) = 0, F(1)  =1,
     F(n) = F(n-1) + (n-2) para n >= 2
     """
-    #caso base 1
+    # caso base 1
     if n == 0:
         return 0
 
@@ -12,9 +12,9 @@ def fibonacci(n):
     if n == 1:
         return 1
 
-    #llamada recursiva
+    # llamada recursiva
     return fibonacci(n-1) + fibonacci(n-2)
 
-#ejemplo de uso
+# ejemplo de uso
 for i in range(10):
     print(f"F({i}) = {fibonacci(i)}")
