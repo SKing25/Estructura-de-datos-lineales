@@ -1,6 +1,5 @@
 def potencia(a,b):
-    """calcula a^b de forma recursiva"""
-
+    """calcula a^b usando recursion"""
     #caso base
     if b == 0:
         return 1

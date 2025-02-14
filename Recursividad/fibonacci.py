@@ -1,13 +1,20 @@
-def fibonacci_memo(n, memo=None):
-    if memo is None:
-        memo = {}
-    if n in memo:
-        return memo[n]
-    if n < 2:
-        memo[n] = n
-    else:
-        memo[n] = fibonacci_memo(n - 1, memo) + fibonacci_memo(n - 2, memo)
-    return memo[n]
+def fibonacci(n):
+    """
+    retorna el n-esimo numero de fibonacci de forma recursiva
+    F(0) = 0, F(1)  =1,
+    F(n) = F(n-1) + (n-2) para n >= 2
+    """
+    #caso base 1
+    if n == 0:
+        return 0
 
-pos = int(input("ingresa numero para serie fibo: "))
-print(fibonacci_memo(pos))
+    #caso base 2
+    if n == 1:
+        return 1
+
+    #llamada recursiva
+    return fibonacci(n-1) + fibonacci(n-2)
+
+#ejemplo de uso
+for i in range(10):
+    print(f"F({i}) = {fibonacci(i)}")
