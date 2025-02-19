@@ -73,6 +73,14 @@ nodes = nx.draw_networkx_nodes(
     node_size = 800
 )
 
+#Dibujamos las etiquetas de los nodos
+nx.draw_networkx_labels(
+    G,
+    pos,
+    font_size = 12,
+    font_color = 'white'
+)
+
 #Dibujamos las aristas
 nx.draw_networkx_edges(
     G,
