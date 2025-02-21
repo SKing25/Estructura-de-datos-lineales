@@ -54,7 +54,7 @@ def visualize_circular_linked_list(cll):
         if current.next != cll.head:
             dot.edge(node_name, f"Node{index + 1}", label="next")
         else:
-            dot.edge(node_name, f"Node{0}", label="next")
+            dot.edge(node_name, f"Node{0}", label="again")
             break
         current = current.next
         index += 1
