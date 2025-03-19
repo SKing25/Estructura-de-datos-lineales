@@ -1,21 +1,22 @@
 from graphviz import Digraph
 
+
 class DoublyNode:
     def __init__(self, data):
         self.data = data
-        self.prev = None # Referencia al nodo anterior
-        self.next = None # Referencia al siguiente nodo
+        self.prev = None
+        self.next = None
+
 
 class DoublyLinkedList:
     def __init__(self):
         self.head = None
-        self.tail = None # Suele mantenerse una referencia al final
+        self.tail = None
 
-    def insert_at_begining(self, data):
+    def insert_at_beginning(self, data):
         new_node = DoublyNode(data)
         if self.head is None:
-            self.head = new_node
-            self.tail = new_node
+            self.head = self.tail = new_node
         else:
             new_node.next = self.head
             self.head.prev = new_node
@@ -24,16 +25,35 @@ class DoublyLinkedList:
     def insert_at_end(self, data):
         new_node = DoublyNode(data)
         if self.head is None:
-            self.head = new_node
-            self.tail = new_node
+            self.head = self.tail = new_node
         else:
             self.tail.next = new_node
             new_node.prev = self.tail
             self.tail = new_node
 
+    def insert_after(self, key, data):
+        current = self.head
+        while current is not None and current.data != key:
+            current = current.next
+
+        if current is None:
+            print(f"El nodo con valor {key} no se encontró.")
+            return
+
+        new_node = DoublyNode(data)
+        new_node.next = current.next
+        new_node.prev = current
+
+        if current.next is not None:
+            current.next.prev = new_node
+        else:
+            self.tail = new_node  # Si se inserta al final, actualizar tail
+
+        current.next = new_node
+
     def remove(self, key):
         if self.head is None:
-            print("La lista esta vacia")
+            print("La lista está vacía")
             return
 
         current = self.head
@@ -41,45 +61,24 @@ class DoublyLinkedList:
             current = current.next
 
         if current is None:
-            print(f"El elemento {key} no esta en la lista")
+            print(f"El elemento {key} no está en la lista")
             return
 
-        # caso 1: el nodo es la cabeza
         if current == self.head:
-            self.head = self.head.next
+            self.head = current.next
             if self.head:
                 self.head.prev = None
             else:
-                self.tail = None # lista quedo vacia
-
-        # caso 2: el nodo es la cola
+                self.tail = None
         elif current == self.tail:
-            self.tail = self.tail.prev
-            self.tail.next = None
-
-        # Caso 3: nodo intermedio
+            self.tail = current.prev
+            if self.tail:
+                self.tail.next = None
         else:
             current.prev.next = current.next
             current.next.prev = current.prev
 
-    def search(self, target):
-        """
-        Busca un valor (target) en la lista
-        Retorna el nodo que contiene el valor
-        o None si no lo encuentra
-        """
-        current = self.head
-        while current is not None:
-            if current.data == target:
-                return current # retorna el nodo encontrado
-            current = current.next
-        return None # si no se encontro el valor
-
     def traverse_forward(self):
-        """
-        Recorre la lista desde la cabeza hacia la cola,
-        imprimiendo los valores de cada nodo
-        """
         current = self.head
         while current is not None:
             print(current.data, end=" <-> ")
@@ -87,47 +86,47 @@ class DoublyLinkedList:
         print("None")
 
     def traverse_backward(self):
-        """
-        Recorre la lista desde la cola hacia la cabeza,
-        imprimiendo los valores de cada nodo
-        """
         current = self.tail
         while current is not None:
             print(current.data, end=" <-> ")
             current = current.prev
         print("None")
 
-def visualize_doubly_linked_list(dll):
-    """
-    Dibuja la lista doblemente enlazada usando Graphviz.
-    Cada nodo es un óvalo con el 'data'.
-    Se dibuja una flecha desde un nodo hacia el siguiente y el anterior.
-    """
-    dot = Digraph(comment="Doubly Linked List")
-    dot.attr(rankdir="LR") # orienta el grafo de izquierda a derecha
+    def visualize(self):
+        dot = Digraph(comment="Doubly Linked List")
+        dot.attr(rankdir="LR")
 
-    if dll.head is None:
-        dot.node("Empty", label="Lista vacía")
+        if self.head is None:
+            dot.node("Empty", label="Lista vacía")
+            return dot
+
+        current = self.head
+        index = 0
+        while current is not None:
+            node_name = f"Node{index}"
+            dot.node(node_name, label=str(current.data), shape="ellipse")
+            if current.next is not None:
+                dot.edge(node_name, f"Node{index + 1}", label="next")
+                dot.edge(f"Node{index + 1}", node_name, label="prev")
+            current = current.next
+            index += 1
+
         return dot
 
-    current = dll.head
-    index = 0 # Para dar nombre único a cada nodo
-    while current is not None:
-        node_name = f"Node{index}"
-        dot.node(node_name, label=str(current.data), shape="ellipse")
-        if current.next is not None:
-            dot.edge(node_name, f"Node{index + 1}", label="next")
-            dot.edge(f"Node{index + 1}", node_name, label="prev")
-        current = current.next
-        index += 1
 
-    return dot
-
-# Crear la lista doblemente enlazada y visualizarla
+# Pruebas con la lista
 lista = DoublyLinkedList()
 lista.insert_at_end("Tarea1")
 lista.insert_at_end("Tarea2")
 lista.insert_at_end("Tarea3")
+lista.traverse_forward()
+lista.traverse_backward()
 
-dot_obj = visualize_doubly_linked_list(lista)
-dot_obj # SOLO FUNCIONA EN COLAB
+# Insertar después de un nodo específico
+lista.insert_after("Tarea2", "Tarea2.5")
+lista.traverse_forward()
+
+# Eliminar primer y último elemento
+lista.remove("Tarea1")
+lista.remove("Tarea3")
+lista.traverse_forward()

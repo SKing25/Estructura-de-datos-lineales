@@ -36,6 +36,11 @@ class Fraccion:
         nuevo_den = self.__denominador * otra.__denominador
         return Fraccion(nuevo_num, nuevo_den)
 
+    def dividir(self, otra: 'Fraccion') -> 'Fraccion':
+        nuevo_num = self.__numerador * otra.__denominador
+        nuevo_den = self.__denominador * otra.__numerador
+        return Fraccion(nuevo_num, nuevo_den)
+
     def comparar(self, otra: 'Fraccion') -> int:
         """
         Retorna:
@@ -53,3 +58,16 @@ class Fraccion:
 
     def __str__(self) -> str:
         return f'{self.__numerador} / {self.__denominador}'
+
+f1 = Fraccion(2,3)
+f2 = Fraccion(12,6)
+
+suma = f1.sumar(f2)
+resta = f1.restar(f2)
+mult = f1.multiplicar(f2)
+div = f1.dividir(f2)
+
+print(suma)
+print(resta)
+print(mult)
+print(div)

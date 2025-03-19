@@ -1,9 +1,4 @@
 def factorial_recursivo(n: int) -> int:
-    """
-    Calcula el factorial de n recursivamente.
-    :param n: Numero entero no negativo
-    :return: Factorial de n
-    """
     if n <= 1:
         return 1
     return n * factorial_recursivo(n-1)

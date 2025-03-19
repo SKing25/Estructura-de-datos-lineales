@@ -1,73 +1,75 @@
-from graphviz import Digraph
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
 
-class Node:
-    def __init__(self, data):
-        self.data = data # Dato o valor que almacena el nodo
-        self.next = None # Referencia al siguiente nodo
-
-class CircularLinkedList:
+class ListaCircular:
     def __init__(self):
-        self.head = None
+        self.cabeza = None
 
-    def insert_at_end(self, data):
-        new_node = Node(data)
-        if self.head is None:
-            self.head = new_node
-            new_node.next = self.head
+    def insertar(self, dato):
+        nuevo_nodo = Nodo(dato)
+        if self.cabeza is None:
+            self.cabeza = nuevo_nodo
+            nuevo_nodo.siguiente = self.cabeza
         else:
-            current = self.head
-            while current.next != self.head:
-                current = current.next
-            current.next = new_node
-            new_node.next = self.head
+            temp = self.cabeza
+            while temp.siguiente != self.cabeza:
+                temp = temp.siguiente
+            temp.siguiente = nuevo_nodo
+            nuevo_nodo.siguiente = self.cabeza
 
-    def traverse (self):
-        if self.head is None:
-            print("La lista esta vacia")
+    def eliminar_cabeza(self):
+        if self.cabeza is None:
+            print("La lista está vacía.")
             return
-        current = self.head
+        if self.cabeza.siguiente == self.cabeza:  # Solo un nodo
+            self.cabeza = None
+        else:
+            temp = self.cabeza
+            while temp.siguiente != self.cabeza:
+                temp = temp.siguiente
+            temp.siguiente = self.cabeza.siguiente
+            self.cabeza = self.cabeza.siguiente
+
+    def eliminar_cola(self):
+        if self.cabeza is None:
+            print("La lista está vacía.")
+            return
+        if self.cabeza.siguiente == self.cabeza:
+            self.cabeza = None
+        else:
+            temp = self.cabeza
+            while temp.siguiente.siguiente != self.cabeza:
+                temp = temp.siguiente
+            temp.siguiente = self.cabeza
+
+    def recorrer(self):
+        if self.cabeza is None:
+            print("Lista vacía.")
+            return
+        temp = self.cabeza
         while True:
-            print(current.data, end=" -> ")
-            current = current.next
-            if current.next == self.head:
+            print(temp.dato, end=" -> ")
+            temp = temp.siguiente
+            if temp == self.cabeza:
                 break
         print("(Regresa al inicio)")
 
-def visualize_circular_linked_list(cll):
-    """
-    Dibuja la lista circular simplemente enlazada usando Graphviz.
-    Cada nodo es un óvalo con el 'data'.
-    Se dibuja una flecha desde un nodo hacia el siguiente, y desde el último nodo al primero.
-    """
-    dot = Digraph(comment="Circular Linked List")
-    dot.attr(rankdir="LR")  # Orienta el grafo de izquierda a derecha
+# Ejemplo de uso
+lista = ListaCircular()
+lista.insertar("Nodo 1")
+lista.insertar("Nodo 2")
+lista.insertar("Nodo 3")
+lista.insertar("Nodo 4")
 
-    if cll.head is None:
-        dot.node("Empty", label="Lista vacía")
-        return dot
+print("Lista circular:")
+lista.recorrer()
 
-    current = cll.head
-    index = 0  # Para dar nombre único a cada nodo
-    while True:
-        node_name = f"Node{index}"
-        dot.node(node_name, label=str(current.data), shape="ellipse")
-        if current.next != cll.head:
-            dot.edge(node_name, f"Node{index + 1}", label="next")
-        else:
-            dot.edge(node_name, f"Node{0}", label="again")
-            break
-        current = current.next
-        index += 1
+print("\nEliminando la cabeza...")
+lista.eliminar_cabeza()
+lista.recorrer()
 
-    return dot
-
-# Crear la lista circular simplemente enlazada y visualizarla
-lista = CircularLinkedList()
-lista.insert_at_end("Tarea1")
-lista.insert_at_end("Tarea2")
-lista.insert_at_end("Tarea3")
-lista.insert_at_end("Tarea4")
-lista.insert_at_end("Tarea5")
-
-dot_obj = visualize_circular_linked_list(lista)
-dot_obj # SOLO FUNCIONA EN COLAB
+print("\nEliminando la cola...")
+lista.eliminar_cola()
+lista.recorrer()
