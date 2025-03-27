@@ -64,9 +64,14 @@ def merge(left, right):
 
 # Lista desordenada
 arr = [38, 27, 43, 3, 9, 82, 10]
-
+arr1 = [1, 52, 3, 6, 5]
+arr2 = [30, 65, 11, 2, 0]
 # Ordenar la lista usando mergeSort
 sorted_arr = mergeSort(arr)
+sorted_arr1 = mergeSort(arr1)
+sorted_arr2 = mergeSort(arr2)
 
 # Imprimir la lista ordenada
 print("Lista ordenada:", sorted_arr)
+print("Lista ordenada:", sorted_arr1)
+print("Lista ordenada:", sorted_arr2)
