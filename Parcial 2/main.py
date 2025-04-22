@@ -1,7 +1,7 @@
 # main.py
 from circularList import CircularList
 from stack import Stack
-from queues import Queue
+from queues import Queue, PriorityQueue
 from sorts import merge_sort, quick_sort
 from searches import linear_search, binary_search
 from binaryTrees import BinarySearchTree
@@ -49,6 +49,20 @@ def main():
     print("\n--- Cola FIFO ---")
     print(f"Desencolados (2): {dequeued}")
     print(f"Tamaño final: {len(queue)}")
+
+    # 4. Cola de Prioridad (encolar todos los elementos)
+    priority_queue = PriorityQueue()
+    for num in numbers:  # <-- ¡Iterar sobre TODA la lista!
+        priority_queue.enqueue(num, num)  # Prioridad = valor
+    priority_dequeued = []
+    for _ in range(2):
+        try:
+            priority_dequeued.append(priority_queue.dequeue())
+        except Exception as e:
+            print(f"Error: {e}")
+    print("\n--- Cola de Prioridad ---")
+    print(f"Elementos desencolados (2 de mayor prioridad): {priority_dequeued}")
+    print(f"Tamaño final: {len(priority_queue)}")
 
     # 4. Ordenamiento
     sorted_merge = merge_sort(numbers.copy())
